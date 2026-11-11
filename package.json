@@ -1,0 +1,12 @@
+{
+  "name": "inventory-v3",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm --prefix api run dev\" \"npm --prefix web run dev\"",
+    "staging": "ENV_FILE=.env.staging npm run dev",
+    "install:all": "npm install && npm --prefix api install && npm --prefix web install"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}
