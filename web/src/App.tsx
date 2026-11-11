@@ -1,8 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { useAuth } from './auth'
+import { menu } from './menu'
+import Layout from './Layout'
 import LoginPage from './pages/LoginPage'
-import HomePage from './pages/HomePage'
+import PlaceholderPage from './pages/PlaceholderPage'
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth()
@@ -16,13 +18,17 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route
-        path="/"
         element={
           <RequireAuth>
-            <HomePage />
+            <Layout />
           </RequireAuth>
         }
-      />
+      >
+        <Route index element={<Navigate to={menu[0].path} replace />} />
+        {menu.map((m) => (
+          <Route key={m.path} path={m.path} element={<PlaceholderPage title={m.label} />} />
+        ))}
+      </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
